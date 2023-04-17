@@ -2,7 +2,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:online_note/dialogbox.dart';
 import 'package:online_note/login.dart';
+import 'package:online_note/tile_.dart';
 
 final usersRef = FirebaseFirestore.instance.collection('user');
 late Size mediaquery;
@@ -64,6 +66,27 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  //create new tile
+  void createNewtile() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return dialogbox(
+            controller: newfield,
+            ontap: addNewtile,
+          );
+        });
+  }
+
+  //add new tile
+  void addNewtile() {
+    setState(() {
+      myTiles.add([newfield.text]);
+      newfield.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     mediaquery = MediaQuery.of(context).size;
@@ -100,62 +123,24 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: ReorderableListView(
-        children: [
-          for (final tile in myTiles)
-            ListTile(
-              key: ValueKey(tile),
-              title: Text(tile),
-            )
-        ],
-        onReorder: (oldIndex, newIndex) => updatemytile(oldIndex, newIndex),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return Dialog(
-                    child: SizedBox(
-                  height: mediaquery.height * .2,
-                  width: mediaquery.width * .15,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: mediaquery.height * .01,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: mediaquery.width * .08),
-                        child: const Text(
-                          "Enter New Note",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        height: mediaquery.height * .02,
-                      ),
-                      textfeild(
-                        name: "Note Title",
-                        condn: false,
-                        icon: Icons.add,
-                        controller: newfield,
-                      ),
-                      SizedBox(
-                        height: mediaquery.height * .02,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                              onPressed: () {}, child: const Text("ADD")),
-                        ],
-                      )
-                    ],
-                  ),
-                ));
-              });
+      body: ListView.builder(
+        itemCount: myTiles.length,
+        itemBuilder: (context, index) {
+          return tile_(taskname: myTiles[index][0], ontap: () {});
         },
+      ),
+      // body: ReorderableListView(
+      //   children: [
+      //     for (final tile in myTiles)
+      //       ListTile(
+      //         key: ValueKey(tile),
+      //         title: Text(tile),
+      //       )
+      //   ],
+      //   onReorder: (oldIndex, newIndex) => updatemytile(oldIndex, newIndex),
+      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: createNewtile,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
@@ -186,3 +171,4 @@ class _HomePageState extends State<HomePage> {
       //     // ))
       //   ]),
       // ),
+ 
