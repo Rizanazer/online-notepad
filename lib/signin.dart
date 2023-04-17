@@ -39,13 +39,16 @@ class _signupState extends State<signup> {
     super.dispose();
   }
 
+  getuid() => FirebaseAuth.instance.currentUser?.uid;
+
   Future SignUp() async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: email.text, password: password.text);
-      addUserDetails(username.text.trim()
+      addUserDetails(username.text.trim(), getuid()
           //int.parse(controller.text.trom()) => for integer
           );
+      // FirebaseAuth.instance.currentUser?.updateDisplayName(username.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
         errormessage = e.message;
@@ -53,18 +56,14 @@ class _signupState extends State<signup> {
     }
   }
 
-  Future addUserDetails(String name) async {
-    await FirebaseFirestore.instance.collection('user').add({'Username': name});
+  Future addUserDetails(String name, String uid) async {
+    //  await FirebaseFirestore.instance.collection('user').add({
+    //   'Username': name,
+    // }); => random doc id generated for documents
+    await FirebaseFirestore.instance.collection('user').doc(uid).set({
+      'Username': name,
+    });
   }
-
-  // bool password_() {
-  //   if (password.text.trim() == repassword.text.trim()) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-
-  // }
 
   @override
   Widget build(BuildContext context) {

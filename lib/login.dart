@@ -67,8 +67,8 @@ class _loginState extends State<login> {
             controller: email,
             icon: Icons.email,
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: mediaquery.height * .01,
           ),
           textfeild(
             condn: true,
@@ -96,8 +96,8 @@ class _loginState extends State<login> {
               )
             ],
           ),
-          const SizedBox(
-            height: 30,
+          SizedBox(
+            height: mediaquery.height * .03,
           ),
           ElevatedButton(
             onPressed: () {
@@ -111,8 +111,9 @@ class _loginState extends State<login> {
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30))),
-            child:
-                const SizedBox(width: 60, child: Center(child: Text("Login"))),
+            child: SizedBox(
+                width: mediaquery.width * .06,
+                child: const Center(child: Text("Login"))),
           ),
           SizedBox(
             height: mediaquery.height * 0.13,
