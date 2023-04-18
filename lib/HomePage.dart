@@ -2,6 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:online_note/data/database.dart';
 import 'package:online_note/dialogbox.dart';
 import 'package:online_note/login.dart';
 import 'package:online_note/tile_.dart';
@@ -17,6 +19,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //ref to hive box
+  final _mybox = Hive.box('mybox');
+  todoDatabase db = todoDatabase();
+  @override
+  void initState() {
+    getUser();
+    if (_mybox.get("myTile") == Null) {
+      db.createIntialdata();
+    } else {
+      db.loadData();
+    }
+
+    super.initState();
+  }
+
   // ignore: non_constant_identifier_names
   // List<String> DocId = [];
   // Future getDocId() async {
@@ -39,11 +56,11 @@ class _HomePageState extends State<HomePage> {
     await FirebaseAuth.instance.signOut();
   }
 
-  @override
-  void initState() {
-    getUser();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   getUser();
+  //   super.initState();
+  // }
 
   Future getUser() async {
     final String? id = FirebaseAuth.instance.currentUser?.uid;
@@ -54,15 +71,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   //list view
-  final List myTiles = ['A', 'B', 'C', 'D'];
+
   //reorder methord
   void updatemytile(int oldIndex, int newIndex) {
     setState(() {
       if (oldIndex < newIndex) {
         newIndex--;
       }
-      final tile = myTiles.removeAt(oldIndex);
-      myTiles.insert(newIndex, tile);
+      final tile = db.myTile.removeAt(oldIndex);
+      db.myTile.insert(newIndex, tile);
     });
   }
 
@@ -81,10 +98,19 @@ class _HomePageState extends State<HomePage> {
   //add new tile
   void addNewtile() {
     setState(() {
-      myTiles.add([newfield.text]);
+      db.myTile.add([newfield.text]);
       newfield.clear();
     });
     Navigator.of(context).pop();
+    db.updateDatabase();
+  }
+
+  //delete tab
+  void deleteTab(int index) {
+    setState(() {
+      db.myTile.removeAt(index);
+    });
+    db.updateDatabase();
   }
 
   @override
@@ -124,9 +150,13 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: ListView.builder(
-        itemCount: myTiles.length,
+        itemCount: db.myTile.length,
         itemBuilder: (context, index) {
-          return tile_(taskname: myTiles[index][0], ontap: () {});
+          return tile_(
+            taskname: db.myTile[index][0],
+            ontap: () {},
+            deleteTab: (context) => deleteTab(index),
+          );
         },
       ),
       // body: ReorderableListView(

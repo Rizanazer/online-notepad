@@ -112,7 +112,7 @@ class _loginState extends State<login> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30))),
             child: SizedBox(
-                width: mediaquery.width * .06,
+                width: mediaquery.width * .09,
                 child: const Center(child: Text("Login"))),
           ),
           SizedBox(
