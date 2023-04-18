@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:online_note/data/database.dart';
+import 'package:online_note/datapage.dart';
 import 'package:online_note/dialogbox.dart';
 
 import 'package:online_note/tile_.dart';
@@ -154,7 +155,10 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           return tile_(
             taskname: db.myTile[index][0],
-            ontap: () {},
+            ontap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const dataPage()));
+            },
             deleteTab: (context) => deleteTab(index),
           );
         },

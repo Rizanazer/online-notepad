@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:online_note/login.dart';
 
+late Size mq;
+
 // ignore: camel_case_types
 class resetpassword extends StatefulWidget {
   const resetpassword({super.key});
@@ -42,7 +44,10 @@ class _resetpasswordState extends State<resetpassword> {
 
   Widget _errorMessage() {
     return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
+      padding: EdgeInsets.only(
+        left: mediaquery.height * .01,
+        right: mediaquery.width * .02,
+      ),
       child: Text(
         errormessage == '' ? '' : 'Humm ? $errormessage',
         style: const TextStyle(color: Colors.red),
@@ -52,6 +57,7 @@ class _resetpasswordState extends State<resetpassword> {
 
   @override
   Widget build(BuildContext context) {
+    mq = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -70,8 +76,8 @@ class _resetpasswordState extends State<resetpassword> {
               textColor: Colors.blue,
               child: const Text("Reset Password"),
             ),
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: mediaquery.height * .03,
             ),
             _errorMessage()
           ],

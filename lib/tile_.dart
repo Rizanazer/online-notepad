@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+late Size mediaquery;
+
+// ignore: camel_case_types, must_be_immutable
 class tile_ extends StatelessWidget {
   final String taskname;
   Function()? ontap;
@@ -13,26 +16,30 @@ class tile_ extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    mediaquery = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+      padding: EdgeInsets.only(
+          top: mediaquery.width * .025,
+          left: mediaquery.width * .035,
+          right: mediaquery.width * .035),
       child: Slidable(
         endActionPane: ActionPane(motion: const StretchMotion(), children: [
           SlidableAction(
             onPressed: deleteTab,
             icon: Icons.delete,
             backgroundColor: Colors.red,
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(mediaquery.width * 03),
           ),
         ]),
         child: InkWell(
           onTap: ontap,
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(mediaquery.width * 03),
                 color: Colors.blue[100]),
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(mediaquery.width * .048),
             child: SizedBox(
-                width: 300,
+                width: mediaquery.width * 3,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [Text(taskname), const Icon(Icons.arrow_right)],

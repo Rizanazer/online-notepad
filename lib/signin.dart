@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:online_note/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+late Size mediaquery;
+
 class signup extends StatefulWidget {
   signup({super.key});
 
@@ -67,6 +69,7 @@ class _signupState extends State<signup> {
 
   @override
   Widget build(BuildContext context) {
+    mediaquery = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text("SignUp"),
@@ -81,8 +84,8 @@ class _signupState extends State<signup> {
             controller: username,
             icon: Icons.account_circle,
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: mediaquery.height * .02,
           ),
           textfeild(
             name: "email",
@@ -90,8 +93,8 @@ class _signupState extends State<signup> {
             controller: email,
             icon: Icons.email,
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: mediaquery.height * .02,
           ),
           textfeild(
             name: "password",
@@ -99,8 +102,8 @@ class _signupState extends State<signup> {
             controller: password,
             icon: Icons.password_outlined,
           ),
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: mediaquery.height * .02,
           ),
           textfeild(
             name: "re-password",
@@ -108,8 +111,8 @@ class _signupState extends State<signup> {
             controller: repassword,
             icon: Icons.password_outlined,
           ),
-          const SizedBox(
-            height: 30,
+          SizedBox(
+            height: mediaquery.height * .02,
           ),
           ElevatedButton(
             onPressed: () {
@@ -130,12 +133,15 @@ class _signupState extends State<signup> {
             },
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30))),
-            child:
-                const SizedBox(width: 60, child: Center(child: Text("SignUp"))),
+                    borderRadius: BorderRadius.circular(
+              mediaquery.width * .04,
+            ))),
+            child: SizedBox(
+                width: mediaquery.height * .06,
+                child: const Center(child: Text("SignUp"))),
           ),
-          const SizedBox(
-            height: 10,
+          SizedBox(
+            height: mediaquery.height * .02,
           ),
           _errorMessage()
         ],
