@@ -156,8 +156,10 @@ class _HomePageState extends State<HomePage> {
           return tile_(
             taskname: db.myTile[index][0],
             ontap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const dataPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => dataPage(
+                        name: db.myTile[index][0],
+                      )));
             },
             deleteTab: (context) => deleteTab(index),
           );
