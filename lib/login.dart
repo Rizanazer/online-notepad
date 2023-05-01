@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:online_note/HomePage.dart';
 import 'package:online_note/resetpass.dart';
 
 import 'package:online_note/signin.dart';
